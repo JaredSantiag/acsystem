@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,10 @@ import com.cja.acsystem.security.JwtTokenProvider;
 @RestController
 @RequestMapping("/acsystem/login")
 public class LoginController {
+	
+	@Value("${app.licencia-usuarios}")
+	private int cantidadUsuarios;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -77,7 +83,11 @@ public class LoginController {
 	}
 
 	@PostMapping("/licencias/{licenciaId}/registrar")
-	public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO registroDTO, long licenciaId) {
+	public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO registroDTO,
+			@PathVariable(value = "licenciaId") Long licenciaId) {
+
+		Licencia licencia = licenciaRepository.findById(licenciaId)
+				.orElseThrow(() -> new ResourceNotFoundException("Licencia", "id", licenciaId));
 
 		if (usuarioRepository.existsByUsername(registroDTO.getUsername())) {
 			return new ResponseEntity<>("Ese nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
@@ -92,14 +102,14 @@ public class LoginController {
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
 		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
-
-		Licencia licencia = licenciaRepository.findById(licenciaId)
-				.orElseThrow(() -> new ResourceNotFoundException("Licencia", "id", licenciaId));
-
 		usuario.setLicencia(licencia);
 
-		Role roles = roleRepository.findByNombre("ROLE_ADMIN").get();
-		usuario.setRoles(Collections.singleton(roles));
+		try {
+			Role roles = roleRepository.findByNombre(registroDTO.getRole()).get();
+			usuario.setRoles(Collections.singleton(roles));
+		} catch (Exception error) {
+			return new ResponseEntity<>("El Role no es valido", HttpStatus.BAD_REQUEST);
+		}
 
 		usuarioRepository.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);

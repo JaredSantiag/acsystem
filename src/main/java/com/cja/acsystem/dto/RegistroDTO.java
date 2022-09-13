@@ -6,7 +6,11 @@ public class RegistroDTO {
 	private String username;
 	private String email;
 	private String password;
-	private Long licenciaId;
+	private String role;
+	
+	public RegistroDTO() {
+		super();
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -39,17 +43,13 @@ public class RegistroDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public Long getLicenciaId() {
-		return licenciaId;
+
+	public String getRole() {
+		return role;
 	}
 
-	public void setLicenciaId(Long licenciaId) {
-		this.licenciaId = licenciaId;
-	}
-
-	public RegistroDTO() {
-		super();
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }
