@@ -39,7 +39,7 @@ public class CreditoStatusController {
 		return new ResponseEntity<>(creditoStatusService.crearCreditoStatus(creditoStatusDTO), HttpStatus.CREATED);
 	}
 
-	//@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	@CrossOrigin(origins = "http://localhost:3000",methods = RequestMethod.PUT)
 	public ResponseEntity<CreditoStatusDTO> actualizarCreditoStatus(@Valid @RequestBody CreditoStatusDTO creditoStatusDTO,
@@ -48,7 +48,7 @@ public class CreditoStatusController {
 		return new ResponseEntity<>(creditoStatusRespuesta, HttpStatus.OK);
 	}
 
-	//@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> eliminarCreditoStatus(@PathVariable(name = "id") long id){
