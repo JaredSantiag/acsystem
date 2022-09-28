@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.cja.acsystem.services.UnidadNegocioService;
@@ -32,18 +33,20 @@ public class UnidadNegocioController {
 		UnidadNegocioDTO unidadNegocioDTO = unidadNegocioService.obtenerUnidadPorId(firmaId, unidadId);
 		return new ResponseEntity<>(unidadNegocioDTO, HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/firmas/{firmaId}/unidadesNegocio")
 	public ResponseEntity<UnidadNegocioDTO> guardarUnidad(@PathVariable(value="firmaId") long firmaId,@Valid @RequestBody UnidadNegocioDTO unidadNegocioDTO){
 		return new ResponseEntity<>(unidadNegocioService.crearUnidadNegocio(firmaId, unidadNegocioDTO),HttpStatus.CREATED);
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/firmas/{firmaId}/unidadesNegocio/{unidadId}")
 	public ResponseEntity<UnidadNegocioDTO> actualizarUnidadNegocio(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadId") Long unidadId,@Valid @RequestBody UnidadNegocioDTO unidadNegocioDTO){
 		UnidadNegocioDTO unidadNegocioActualizada = unidadNegocioService.actualizarUnidadNegocio(firmaId, unidadId, unidadNegocioDTO);
 		return new ResponseEntity<>(unidadNegocioActualizada,HttpStatus.OK);
 	}
-	
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/firmas/{firmaId}/unidadesNegocio/{id}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<String> eliminarUnidadNegocio(@PathVariable(value="firmaId")
