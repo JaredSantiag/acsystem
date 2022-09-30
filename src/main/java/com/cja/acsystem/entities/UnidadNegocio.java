@@ -73,6 +73,10 @@ public class UnidadNegocio {
 	public void setFirma(Firma firma) {
 		this.firma = firma;
 	}
+<<<<<<< HEAD
 
 
+=======
+	
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 }

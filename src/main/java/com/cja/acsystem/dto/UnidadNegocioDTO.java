@@ -6,13 +6,17 @@ public class UnidadNegocioDTO {
 	private String nombre;
 	private boolean activo;
 	private String script;
+<<<<<<< HEAD
 
 	private Long firma_id;
+=======
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	
 	public UnidadNegocioDTO() {
 		
 	}
 
+<<<<<<< HEAD
 	public Long getFirma_id() {
 		return firma_id;
 	}
@@ -21,6 +25,8 @@ public class UnidadNegocioDTO {
 		this.firma_id = firma_id;
 	}
 
+=======
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	public Long getId() {
 		return id;
 	}

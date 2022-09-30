@@ -1,5 +1,27 @@
 package com.cja.acsystem.controllers;
 
+<<<<<<< HEAD
+=======
+import java.util.Date;
+import java.util.Collections;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 import com.cja.acsystem.dto.LoginDTO;
 import com.cja.acsystem.dto.RegistroDTO;
 import com.cja.acsystem.entities.Licencia;
@@ -11,6 +33,7 @@ import com.cja.acsystem.repositories.RoleRepository;
 import com.cja.acsystem.repositories.UsuarioRepository;
 import com.cja.acsystem.security.JWTAuthResonseDTO;
 import com.cja.acsystem.security.JwtTokenProvider;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,6 +51,10 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
+=======
+
+@RestController
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 @RequestMapping("/acsystem/login")
 public class LoginController {
 	

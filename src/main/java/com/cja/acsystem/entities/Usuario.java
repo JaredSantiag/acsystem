@@ -1,5 +1,6 @@
 package com.cja.acsystem.entities;
 
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +8,24 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import javax.persistence.*;
+=======
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 
 @Entity
 @Table(name = "usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
@@ -36,6 +55,7 @@ public class Usuario {
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<>();
 
+<<<<<<< HEAD
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ultima_actualizacion")
 	private Date ultimaActualizacion;
@@ -48,6 +68,8 @@ public class Usuario {
 		this.ultimaActualizacion = ultimaActualizacion;
 	}
 
+=======
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	public long getId() {
 		return id;
 	}
