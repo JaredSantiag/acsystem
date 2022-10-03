@@ -50,12 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		    .sessionManagement()
 		    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		    .and()
-<<<<<<< HEAD
-		    .authorizeRequests().antMatchers("/**").permitAll()
-=======
+
+		    .authorizeRequests().antMatchers("/**").permitAll().and()
 		    .authorizeRequests().antMatchers(HttpMethod.GET, "/acsystem/**").permitAll()
 		    .antMatchers("/acsystem/login/**").permitAll()
->>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 		    .anyRequest()
 		    .authenticated();
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
