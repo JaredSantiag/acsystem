@@ -1,10 +1,7 @@
 package com.cja.acsystem.dto;
 
-<<<<<<< HEAD
 import java.util.Date;
 
-=======
->>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 public class RegistroDTO {
 
 	private String nombre;
@@ -12,22 +9,8 @@ public class RegistroDTO {
 	private String email;
 	private String password;
 	private String role;
-<<<<<<< HEAD
-
 	private Date ultimaActualizacion;
 
-
-	public Date getUltimaActualizacion() {
-		return ultimaActualizacion;
-	}
-
-	public void setUltimaActualizacion(Date ultimaActualizacion) {
-		this.ultimaActualizacion = ultimaActualizacion;
-	}
-
-=======
-	
->>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	public RegistroDTO() {
 		super();
 	}
@@ -58,7 +41,7 @@ public class RegistroDTO {
 
 	public String getPassword() {
 		return password;
-	}  
+	}
 
 	public void setPassword(String password) {
 		this.password = password;
@@ -70,6 +53,14 @@ public class RegistroDTO {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Date getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+
+	public void setUltimaActualizacion(Date ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
 	}
 
 }
