@@ -9,11 +9,11 @@
 		<version>2.6.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sistema.blog</groupId>
-	<artifactId>sistema-blog-spring-boot-api-rest</artifactId>
+	<groupId>com.cja.acsystem</groupId>
+	<artifactId>acsystem-api-rest</artifactId>
 	<version>1.0</version>
-	<name>sistema-blog-spring-boot-api-rest</name>
-	<description>Demo project for Spring Boot</description>
+	<name>acsystem-api-rest</name>
+	<description>Sistema Acsystem Spring Boot API REST</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
