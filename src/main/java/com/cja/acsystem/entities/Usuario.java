@@ -1,5 +1,6 @@
 package com.cja.acsystem.entities;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
@@ -31,10 +34,10 @@ public class Usuario {
 
 	@Column(length = 60)
 	private String password;
-	
+
 	@Column(length = 80)
 	private String nombre;
-	
+
 	@Column(length = 80)
 	private String email;
 
@@ -44,6 +47,10 @@ public class Usuario {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "ultima_actualizacion")
+	private Date ultimaActualizacion;
 
 	public long getId() {
 		return id;
@@ -99,6 +106,14 @@ public class Usuario {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Date getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+
+	public void setUltimaActualizacion(Date ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
 	}
 
 }
