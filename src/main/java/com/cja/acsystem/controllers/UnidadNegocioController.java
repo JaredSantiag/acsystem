@@ -7,6 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+=======
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +19,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 
 import com.cja.acsystem.services.UnidadNegocioService;
 import com.cja.acsystem.dto.UnidadNegocioDTO;
 
 
 @RestController
+<<<<<<< HEAD
+@CrossOrigin
+=======
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 @RequestMapping("/acsystem/")
 public class UnidadNegocioController {
 
@@ -28,6 +37,10 @@ public class UnidadNegocioController {
 	UnidadNegocioService unidadNegocioService;
 	
 	@GetMapping("/firmas/{firmaId}/unidadesNegocio")
+<<<<<<< HEAD
+	@CrossOrigin(origins = "http://localhost:3000",methods = RequestMethod.GET)
+=======
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	public List<UnidadNegocioDTO> listarUnidadesPorFirmas(@PathVariable(value="firmaId") Long firmaId){
 		return unidadNegocioService.obtenerUnidadesPorFirmaId(firmaId);
 	}
@@ -37,20 +50,38 @@ public class UnidadNegocioController {
 		UnidadNegocioDTO unidadNegocioDTO = unidadNegocioService.obtenerUnidadPorId(firmaId, unidadId);
 		return new ResponseEntity<>(unidadNegocioDTO, HttpStatus.OK);
 	}
+<<<<<<< HEAD
+
+	@PreAuthorize("hasRole('ADMIN')")
+=======
 	
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	@PostMapping("/firmas/{firmaId}/unidadesNegocio")
 	public ResponseEntity<UnidadNegocioDTO> guardarUnidad(@PathVariable(value="firmaId") long firmaId,@Valid @RequestBody UnidadNegocioDTO unidadNegocioDTO){
 		return new ResponseEntity<>(unidadNegocioService.crearUnidadNegocio(firmaId, unidadNegocioDTO),HttpStatus.CREATED);
 	}
+<<<<<<< HEAD
+
+	@PreAuthorize("hasRole('ADMIN')")
+=======
 	
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 	@PutMapping("/firmas/{firmaId}/unidadesNegocio/{unidadId}")
 	public ResponseEntity<UnidadNegocioDTO> actualizarUnidadNegocio(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadId") Long unidadId,@Valid @RequestBody UnidadNegocioDTO unidadNegocioDTO){
 		UnidadNegocioDTO unidadNegocioActualizada = unidadNegocioService.actualizarUnidadNegocio(firmaId, unidadId, unidadNegocioDTO);
 		return new ResponseEntity<>(unidadNegocioActualizada,HttpStatus.OK);
 	}
+<<<<<<< HEAD
+	@PreAuthorize("hasRole('ADMIN')")
+	@DeleteMapping("/firmas/{firmaId}/unidadesNegocio/{id}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<String> eliminarUnidadNegocio(@PathVariable(value="firmaId")
+															Long firmaId,@PathVariable(value="id") Long unidadId){
+=======
 	
 	@DeleteMapping("/firmas/{firmaId}/unidadesNegocio/{id}")
 	public ResponseEntity<String> eliminarUnidadNegocio(@PathVariable(value="unidadId") Long firmaId,@PathVariable(value="id") Long unidadId){
+>>>>>>> 8e018d77a8e1381877d136ce32169a939f479df4
 		unidadNegocioService.eliminarUnidadNegocio(firmaId, unidadId);
 		return new ResponseEntity<>("Unidad de Negocio eliminada", HttpStatus.OK);
 	}
