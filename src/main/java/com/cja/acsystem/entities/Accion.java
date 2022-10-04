@@ -28,6 +28,10 @@ public class Accion {
     @OneToMany(mappedBy = "accion", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Resultado> resultados = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unidad_negocio_id", nullable = false)
+    private UnidadNegocio unidadNegocio;
+
 
     public Accion() {
 
