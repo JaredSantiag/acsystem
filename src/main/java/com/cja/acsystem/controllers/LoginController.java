@@ -1,5 +1,21 @@
 package com.cja.acsystem.controllers;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import com.cja.acsystem.dto.LoginDTO;
 import com.cja.acsystem.dto.RegistroDTO;
 import com.cja.acsystem.entities.Licencia;
@@ -11,29 +27,15 @@ import com.cja.acsystem.repositories.RoleRepository;
 import com.cja.acsystem.repositories.UsuarioRepository;
 import com.cja.acsystem.security.JWTAuthResonseDTO;
 import com.cja.acsystem.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/acsystem/login")
 public class LoginController {
-	
+
 	@Value("${app.licencia-usuarios}")
 	private int cantidadUsuarios;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -55,14 +57,28 @@ public class LoginController {
 	@PostMapping("/iniciarsesion")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginDTO loginDTO) {
 
-		// Obtnemos la licencia del usuario
 		Optional<Usuario> usuario = usuarioRepository.findByUsername(loginDTO.getUsername());
 		Licencia licencia = usuario.get().getLicencia();
 
-		long miliseconds = System.currentTimeMillis();
-		Date fecha_actual = new Date(miliseconds);
+		// Consumiendo la api externa de licenciamiento
+		RestTemplate plantilla = new RestTemplate();
+		String resultado = plantilla.getForObject(
+				"http://192.168.3.11:8080/licenciamiento/licencias/validacion/" + licencia.getNumeroLicencia(),
+				String.class);
 
-		if (fecha_actual.before(licencia.getFechaFin())) {
+		// Validamos licencia
+		if (resultado.equals("Licencia valida")) {
+
+			//Validamos cambio de contraseña
+			Date fechaActual = new Date();
+			Date fechaActualizar = new Date(usuario.get().getUltimaActualizacion().getTime() + (90L * 86400000L) + 3600000L );
+			Date fechaaux=new Date(usuario.get().getUltimaActualizacion().getTime());
+			System.out.println(fechaaux);
+			System.out.println(fechaActualizar);
+			if(fechaActualizar.before(fechaActual)) {
+				return new ResponseEntity<>("Actualizar contraseña", HttpStatus.BAD_REQUEST);
+			}
+
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
 
@@ -70,7 +86,6 @@ public class LoginController {
 
 			// Obtenemos el token del jwtTokenProvider
 			String token = jwtTokenProvider.generarToken(authentication);
-
 			return ResponseEntity.ok(new JWTAuthResonseDTO(token));
 		} else {
 			return new ResponseEntity<>("Licencia Vencida", HttpStatus.UNAUTHORIZED);
@@ -80,10 +95,19 @@ public class LoginController {
 
 	@PostMapping("/licencias/{licenciaId}/registrar")
 	public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO registroDTO,
-			@PathVariable(value = "licenciaId") Long licenciaId) {
+											  @PathVariable(value = "licenciaId") Long licenciaId) {
 
 		Licencia licencia = licenciaRepository.findById(licenciaId)
 				.orElseThrow(() -> new ResourceNotFoundException("Licencia", "id", licenciaId));
+
+		// Consumiendo la api externa de licenciamiento
+		RestTemplate plantilla = new RestTemplate();
+		Integer resultado = plantilla.getForObject("http://192.168.3.11:8080/licenciamiento/licencias/cantidadusuarios/" + licencia.getNumeroLicencia(),Integer.class);
+		Integer cantUsuarios=usuarioRepository.usuariosExistentes();
+
+		if(resultado <= cantUsuarios){
+			return new ResponseEntity<>("Limite de usuarios superados", HttpStatus.BAD_REQUEST);
+		}
 
 		if (usuarioRepository.existsByUsername(registroDTO.getUsername())) {
 			return new ResponseEntity<>("Ese nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
@@ -98,6 +122,7 @@ public class LoginController {
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
 		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
+		usuario.setUltimaActualizacion(registroDTO.getUltimaActualizacion());
 		usuario.setLicencia(licencia);
 
 		try {
