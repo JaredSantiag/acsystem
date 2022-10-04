@@ -33,11 +33,16 @@ public class AccionServiceImpl implements AccionService {
     private UnidadNegocioRepository unidadNegocioRepository;
 
     @Override
-    public AccionDTO crearAccion(long firmaId, AccionDTO accionDTO) {
+    public AccionDTO crearAccion(long firmaId, long unidadNegocioId,AccionDTO accionDTO) {
         Accion accion = mapearEntidad(accionDTO);
+
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
         accion.setFirma(firma);
+
+        UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad de negocio ", "id", unidadNegocioId));
+        accion.setUnidadNegocio(unidadNegocio);
 
         Accion nuevaAccion = accionRepository.save(accion);
         return mapearDTO(nuevaAccion);
@@ -55,7 +60,7 @@ public class AccionServiceImpl implements AccionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
 
         UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
-                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", firmaId));
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
 
         Accion accion = accionRepository.findById(accionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
@@ -68,9 +73,12 @@ public class AccionServiceImpl implements AccionService {
     }
 
     @Override
-    public AccionDTO actualizarAccion(Long firmaId, Long accionId, AccionDTO accionDTO) {
+    public AccionDTO actualizarAccion(Long firmaId, Long unidadNegocioId,Long accionId, AccionDTO accionDTO) {
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
+
+        UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
 
         Accion accion = accionRepository.findById(accionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
