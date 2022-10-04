@@ -9,5 +9,5 @@ import com.cja.acsystem.entities.Firma;
 import java.util.List;
 
 public interface AccionRepository extends JpaRepository<Accion, Long> {
-    public List<Accion> findByFirmaId(Long litigionId);
+    public List<Accion> findByUnidadNegocioId(Long unidadNegocioId);
 }

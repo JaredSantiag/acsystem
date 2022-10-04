@@ -8,9 +8,9 @@ import com.cja.acsystem.dto.UnidadNegocioDTO;
 public interface AccionService {
     public AccionDTO crearAccion(long firmaId, AccionDTO accionDTO);
 
-    public List<AccionDTO> obtenerAccionesPorFirmaId(long FirmaId);
+    public List<AccionDTO> obtenerAccionesPorUnidadNegocio(long UnidadNegocioId);
 
-    public AccionDTO obtenerAccionPorId(Long firmaId, Long accionId);
+    public AccionDTO obtenerAccionPorId(Long firmaId, Long unidadNegocioId,Long accionId);
 
     public AccionDTO actualizarAccion(Long firmaId, Long accionId, AccionDTO accionDTO);
 
