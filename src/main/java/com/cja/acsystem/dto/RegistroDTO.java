@@ -9,7 +9,17 @@ public class RegistroDTO {
 	private String email;
 	private String password;
 	private String role;
+
 	private Date ultimaActualizacion;
+
+
+	public Date getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+
+	public void setUltimaActualizacion(Date ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
+	}
 
 	public RegistroDTO() {
 		super();
@@ -53,14 +63,6 @@ public class RegistroDTO {
 
 	public void setRole(String role) {
 		this.role = role;
-	}
-
-	public Date getUltimaActualizacion() {
-		return ultimaActualizacion;
-	}
-
-	public void setUltimaActualizacion(Date ultimaActualizacion) {
-		this.ultimaActualizacion = ultimaActualizacion;
 	}
 
 }
