@@ -33,9 +33,9 @@ public class AccionController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/firmas/{firmaId}/acciones")
-    public ResponseEntity<AccionDTO> guardarAccion(@PathVariable(value="firmaId") long firmaId,@Valid @RequestBody AccionDTO accionDTO){
-        return new ResponseEntity<>(accionService.crearAccion(firmaId, accionDTO),HttpStatus.CREATED);
+    @PostMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones")
+    public ResponseEntity<AccionDTO> guardarAccion(@PathVariable(value="firmaId") long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId,@Valid @RequestBody AccionDTO accionDTO){
+        return new ResponseEntity<>(accionService.crearAccion(firmaId, unidadNegocioId,accionDTO),HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -33,11 +33,16 @@ public class AccionServiceImpl implements AccionService {
     private UnidadNegocioRepository unidadNegocioRepository;
 
     @Override
-    public AccionDTO crearAccion(long firmaId, AccionDTO accionDTO) {
+    public AccionDTO crearAccion(long firmaId, long unidadNegocioId,AccionDTO accionDTO) {
         Accion accion = mapearEntidad(accionDTO);
+
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
         accion.setFirma(firma);
+
+        UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad de negocio ", "id", unidadNegocioId));
+        accion.setUnidadNegocio(unidadNegocio);
 
         Accion nuevaAccion = accionRepository.save(accion);
         return mapearDTO(nuevaAccion);
