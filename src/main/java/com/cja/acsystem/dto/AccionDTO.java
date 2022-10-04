@@ -7,8 +7,18 @@ public class AccionDTO {
     private boolean activo;
     private Long firma_id;
 
+    private Long unidad_negocio_id;
+
     public AccionDTO() {
 
+    }
+
+    public Long getUnidad_negocio_id() {
+        return unidad_negocio_id;
+    }
+
+    public void setUnidad_negocio_id(Long unidad_negocio_id) {
+        this.unidad_negocio_id = unidad_negocio_id;
     }
 
     public Long getId() {

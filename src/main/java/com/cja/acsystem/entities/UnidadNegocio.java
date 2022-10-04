@@ -1,14 +1,10 @@
 package com.cja.acsystem.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="unidades_negocio")
@@ -29,7 +25,11 @@ public class UnidadNegocio {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "firma_id", nullable = false)
 	private Firma firma;
-	
+
+	@JsonBackReference
+	@OneToMany(mappedBy = "unidadNegocio", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Accion> accion = new HashSet<>();
+
 	public UnidadNegocio(){
 		
 	}
