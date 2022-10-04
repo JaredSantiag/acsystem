@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cja.acsystem.entities.Usuario;
 
+import org.springframework.data.jpa.repository.Query;
+
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
 	public Optional<Usuario> findByEmail(String email);
@@ -17,5 +19,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	public Boolean existsByUsername (String username);
 	
 	public Boolean existsByEmail(String email);
-	
+
+	@Query(value = "SELECT count(id) FROM Usuario")
+	public Integer usuariosExistentes();
+
 }
