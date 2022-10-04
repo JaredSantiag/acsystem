@@ -20,15 +20,15 @@ public class AccionController {
     @Autowired
     AccionService accionService;
 
-    @GetMapping("/firmas/{firmaId}/acciones")
+    @GetMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones")
     @CrossOrigin(origins = "http://localhost:3000",methods = RequestMethod.GET)
-    public List<AccionDTO> listarAccionPorFirmas(@PathVariable(value="firmaId") Long firmaId){
-        return accionService.obtenerAccionesPorFirmaId(firmaId);
+    public List<AccionDTO> listarAccionPorUnidadNegocio(@PathVariable(value="unidadNegocioId") Long unidadNegocioId){
+        return accionService.obtenerAccionesPorUnidadNegocio(unidadNegocioId);
     }
 
-    @GetMapping("/firmas/{firmaId}/acciones/{id}")
-    public ResponseEntity<AccionDTO> obtenerAccionesPorId(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="id") Long accionId){
-        AccionDTO accionDTO = accionService.obtenerAccionPorId(firmaId, accionId);
+    @GetMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones/{id}")
+    public ResponseEntity<AccionDTO> obtenerAccionesPorId(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId,@PathVariable(value="id") Long accionId){
+        AccionDTO accionDTO = accionService.obtenerAccionPorId(firmaId, unidadNegocioId,accionId);
         return new ResponseEntity<>(accionDTO, HttpStatus.OK);
     }
 

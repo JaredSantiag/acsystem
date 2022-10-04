@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import com.cja.acsystem.dto.AccionDTO;
 import com.cja.acsystem.entities.Accion;
+import com.cja.acsystem.entities.UnidadNegocio;
 import com.cja.acsystem.repositories.AccionRepository;
+import com.cja.acsystem.repositories.UnidadNegocioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,9 @@ public class AccionServiceImpl implements AccionService {
     @Autowired
     private FirmaRepository firmaRepository;
 
+    @Autowired
+    private UnidadNegocioRepository unidadNegocioRepository;
+
     @Override
     public AccionDTO crearAccion(long firmaId, AccionDTO accionDTO) {
         Accion accion = mapearEntidad(accionDTO);
@@ -39,20 +44,24 @@ public class AccionServiceImpl implements AccionService {
     }
 
     @Override
-    public List<AccionDTO> obtenerAccionesPorFirmaId(long firmaId) {
-        List<Accion> acciones = accionRepository.findByFirmaId(firmaId);
+    public List<AccionDTO> obtenerAccionesPorUnidadNegocio(long unidadNegocioId) {
+        List<Accion> acciones = accionRepository.findByUnidadNegocioId(unidadNegocioId);
         return acciones.stream().map(accion -> mapearDTO(accion)).collect(Collectors.toList());
     }
 
     @Override
-    public AccionDTO obtenerAccionPorId(Long firmaId, Long unidadId) {
+    public AccionDTO obtenerAccionPorId(Long firmaId,Long unidadNegocioId, Long accionId) {
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
-        Accion accion = accionRepository.findById(unidadId)
-                .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", unidadId));
+
+        UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", firmaId));
+
+        Accion accion = accionRepository.findById(accionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
 
         if (!accion.getFirma().getId().equals(firma.getId())) {
-            throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta firma");
+            throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta firma o de esta unidad de negocio");
         }
 
         return mapearDTO(accion);

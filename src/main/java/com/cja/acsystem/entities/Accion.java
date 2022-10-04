@@ -84,4 +84,12 @@ public class Accion {
     public void setResultados(Set<Resultado> resultados) {
         this.resultados = resultados;
     }
+
+    public UnidadNegocio getUnidadNegocio() {
+        return unidadNegocio;
+    }
+
+    public void setUnidadNegocio(UnidadNegocio unidadNegocio) {
+        this.unidadNegocio = unidadNegocio;
+    }
 }
