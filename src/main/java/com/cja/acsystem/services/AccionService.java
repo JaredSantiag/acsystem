@@ -3,7 +3,6 @@ package com.cja.acsystem.services;
 import java.util.List;
 
 import com.cja.acsystem.dto.AccionDTO;
-import com.cja.acsystem.dto.UnidadNegocioDTO;
 
 public interface AccionService {
     public AccionDTO crearAccion(long firmaId, long unidadNegocioId,AccionDTO accionDTO);
@@ -12,6 +11,6 @@ public interface AccionService {
 
     public AccionDTO obtenerAccionPorId(Long firmaId, Long unidadNegocioId,Long accionId);
 
-    public AccionDTO actualizarAccion(Long firmaId, Long accionId, AccionDTO accionDTO);
+    public AccionDTO actualizarAccion(Long firmaId, Long unidadNegocioId,Long accionId, AccionDTO accionDTO);
 
 }

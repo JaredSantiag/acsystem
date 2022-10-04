@@ -60,7 +60,7 @@ public class AccionServiceImpl implements AccionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
 
         UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
-                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", firmaId));
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
 
         Accion accion = accionRepository.findById(accionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
@@ -73,9 +73,12 @@ public class AccionServiceImpl implements AccionService {
     }
 
     @Override
-    public AccionDTO actualizarAccion(Long firmaId, Long accionId, AccionDTO accionDTO) {
+    public AccionDTO actualizarAccion(Long firmaId, Long unidadNegocioId,Long accionId, AccionDTO accionDTO) {
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
+
+        UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
 
         Accion accion = accionRepository.findById(accionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));

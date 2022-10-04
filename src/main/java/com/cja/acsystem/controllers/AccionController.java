@@ -38,10 +38,10 @@ public class AccionController {
         return new ResponseEntity<>(accionService.crearAccion(firmaId, unidadNegocioId,accionDTO),HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/firmas/{firmaId}/acciones/{accionId}")
-    public ResponseEntity<AccionDTO> actualizarAccion(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="accionId") Long accionId,@Valid @RequestBody AccionDTO accionDTO){
-        AccionDTO accionActualizada = accionService.actualizarAccion(firmaId, accionId, accionDTO);
+    //@PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones/{accionId}")
+    public ResponseEntity<AccionDTO> actualizarAccion(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId,@PathVariable(value="accionId") Long accionId,@Valid @RequestBody AccionDTO accionDTO){
+        AccionDTO accionActualizada = accionService.actualizarAccion(firmaId, unidadNegocioId,accionId, accionDTO);
         return new ResponseEntity<>(accionActualizada,HttpStatus.OK);
     }
 
