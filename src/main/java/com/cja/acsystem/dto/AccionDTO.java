@@ -4,7 +4,7 @@ public class AccionDTO {
 
     private Long id;
 
-    private String codigoAcceso;
+    private String codigoAccion;
     private String descripcion;
     private boolean activo;
     private Long firma_id;
@@ -54,11 +54,11 @@ public class AccionDTO {
         this.unidad_negocio_id = unidad_negocio_id;
     }
 
-    public String getCodigo_acceso() {
-        return codigoAcceso;
+    public String getCodigo_accion() {
+        return codigoAccion;
     }
 
-    public void setCodigo_acceso(String codigoAcceso) {
-        this.codigoAcceso = codigoAcceso;
+    public void setCodigo_accion(String codigoAcceso) {
+        this.codigoAccion = codigoAccion;
     }
 }

@@ -9,17 +9,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.context.annotation.Primary;
 
 @Entity
-@Table(name = "accion")
+@Table(name = "acciones")
 public class Accion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 60)
-    private String codigoAcceso;
+    @Column(length = 5)
+    private String codigoAccion;
 
-    @Column(length = 60)
+    @Column(length = 50)
     private String descripcion;
 
     private boolean activo;
@@ -32,16 +32,20 @@ public class Accion {
     @JoinColumn(name="firma_id", nullable=false)
     private Firma firma;
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "accion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Resultado> resultados = new HashSet<>();
+
 
     public Accion() {
 
     }
 
-    public Accion(Long id, String codigoAcceso ,String descripccion, boolean activo,Firma firma ) {
+    public Accion(Long id, String codigoAccion ,String descripcion, boolean activo,Firma firma ) {
         super();
         this.id = id;
-        this.codigoAcceso=codigoAcceso;
-        this.descripcion = descripccion;
+        this.codigoAccion=codigoAccion;
+        this.descripcion = descripcion;
         this.activo = activo;
         this.firma= firma;
     }
@@ -87,11 +91,11 @@ public class Accion {
         this.firma = firma;
     }
 
-    public String getCodigo_acceso() {
-        return codigoAcceso;
+    public String getCodigo_accion() {
+        return codigoAccion;
     }
 
-    public void setCodigo_acceso(String codigo_acceso) {
-        this.codigoAcceso = codigo_acceso;
+    public void setCodigo_acceso(String codigo_accion) {
+        this.codigoAccion = codigo_accion;
     }
 }

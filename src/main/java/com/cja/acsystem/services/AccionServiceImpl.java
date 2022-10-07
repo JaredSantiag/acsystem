@@ -98,7 +98,7 @@ public class AccionServiceImpl implements AccionService {
         if (result) {
             throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta disponible en la BD");
         }
-        accion.setCodigo_acceso(accionDTO.getCodigo_acceso());
+        accion.setCodigo_acceso(accionDTO.getCodigo_accion());
         accion.setActivo(accionDTO.isActivo());
         accion.setDescripcion(accionDTO.getDescripcion());
 
