@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.context.annotation.Primary;
 
 @Entity
 @Table(name = "accion")
@@ -16,33 +17,33 @@ public class Accion {
     private Long id;
 
     @Column(length = 60)
+    private String codigoAcceso;
+
+    @Column(length = 60)
     private String descripcion;
 
     private boolean activo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "firma_id", nullable = false)
-    private Firma firma;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "accion", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Resultado> resultados = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unidad_negocio_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name="unidad_negocio_id", nullable=false)
     private UnidadNegocio unidadNegocio;
+
+    @OneToOne
+    @JoinColumn(name="firma_id", nullable=false)
+    private Firma firma;
 
 
     public Accion() {
 
     }
 
-    public Accion(Long id, String descripccion, boolean activo, Set<Resultado> resultados) {
+    public Accion(Long id, String codigoAcceso ,String descripccion, boolean activo,Firma firma ) {
         super();
         this.id = id;
+        this.codigoAcceso=codigoAcceso;
         this.descripcion = descripccion;
         this.activo = activo;
-        this.resultados = resultados;
+        this.firma= firma;
     }
 
     public Long getId() {
@@ -53,12 +54,29 @@ public class Accion {
         this.id = id;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public boolean isActivo() {
         return activo;
     }
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+
+    public UnidadNegocio getUnidadNegocio() {
+        return unidadNegocio;
+    }
+
+    public void setUnidadNegocio(UnidadNegocio unidadNegocio) {
+        this.unidadNegocio = unidadNegocio;
     }
 
     public Firma getFirma() {
@@ -69,27 +87,11 @@ public class Accion {
         this.firma = firma;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getCodigo_acceso() {
+        return codigoAcceso;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Set<Resultado> getResultados() {
-        return resultados;
-    }
-
-    public void setResultados(Set<Resultado> resultados) {
-        this.resultados = resultados;
-    }
-
-    public UnidadNegocio getUnidadNegocio() {
-        return unidadNegocio;
-    }
-
-    public void setUnidadNegocio(UnidadNegocio unidadNegocio) {
-        this.unidadNegocio = unidadNegocio;
+    public void setCodigo_acceso(String codigo_acceso) {
+        this.codigoAcceso = codigo_acceso;
     }
 }
