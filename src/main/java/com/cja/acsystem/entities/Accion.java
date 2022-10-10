@@ -41,13 +41,14 @@ public class Accion {
 
     }
 
-    public Accion(Long id, String codigoAccion ,String descripcion, boolean activo,Firma firma ) {
-        super();
+    public Accion(Long id, String codigoAccion, String descripcion, boolean activo, UnidadNegocio unidadNegocio, Firma firma, Set<Resultado> resultados) {
         this.id = id;
-        this.codigoAccion=codigoAccion;
+        this.codigoAccion = codigoAccion;
         this.descripcion = descripcion;
         this.activo = activo;
-        this.firma= firma;
+        this.unidadNegocio = unidadNegocio;
+        this.firma = firma;
+        this.resultados = resultados;
     }
 
     public Long getId() {

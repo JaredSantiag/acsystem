@@ -34,14 +34,13 @@ public class Firma {
 
 	}
 
-	public Firma(Long id, String nombre, boolean activo, int diasPromesa, Set<UnidadNegocio> unidadesNegocio,Set<Accion> acciones){
-		super();
+	public Firma(Long id, String nombre, boolean activo, int diasPromesa, Set<UnidadNegocio> unidadesNegocio, Set<Accion> acciones) {
 		this.id = id;
 		this.nombre = nombre;
 		this.activo = activo;
 		this.diasPromesa = diasPromesa;
 		this.unidadesNegocio = unidadesNegocio;
-		this.acciones=acciones;
+		this.acciones = acciones;
 	}
 
 	public Set<Accion> getAcciones() {

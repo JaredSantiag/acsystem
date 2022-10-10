@@ -38,10 +38,6 @@ public class ResultadoServicelmpl implements ResultadoService {
     @Autowired
     private ResultadoRepository resultadoRepository;
 
-
-
-
-
     @Override
     public ResultadoDTO crearResultado(long firmaId, long unidadNegocioId,long accionId,ResultadoDTO resultadoDTO) {
         Resultado resultado = mapearEntidad(resultadoDTO);
@@ -53,8 +49,6 @@ public class ResultadoServicelmpl implements ResultadoService {
         Resultado nuevoResultado = resultadoRepository.save(resultado);
         return mapearDTO(nuevoResultado);
     }
-
-
 
     @Override
     public List<ResultadoDTO> obtenerResultadosPorAccion(long firmaId, long unidadNegocioId, long accionId) {

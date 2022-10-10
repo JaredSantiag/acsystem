@@ -34,20 +34,33 @@ public class Resultado {
     @JoinColumn(name="accion_id", nullable=false)
     private Accion accion;
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "resultados", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SubResultado> subResultados = new HashSet<>();
+
+
     public Resultado() {
 
     }
 
-    public Resultado(Long id, String codigoResultado ,boolean activo,boolean contacto,boolean promesa,boolean autoriza,String descripcion, Accion accion ) {
-        super();
+    public Resultado(Long id, String codigoResultado, boolean activo, boolean contacto, boolean promesa, boolean autoriza, String descripcion, Accion accion, Set<SubResultado> subResultados) {
         this.id = id;
-        this.codigoResultado=codigoResultado;
+        this.codigoResultado = codigoResultado;
         this.activo = activo;
         this.contacto = contacto;
-        this.promesa=promesa;
-        this.autoriza=autoriza;
-        this.descripcion=descripcion;
-        this.accion= accion;
+        this.promesa = promesa;
+        this.autoriza = autoriza;
+        this.descripcion = descripcion;
+        this.accion = accion;
+        this.subResultados = subResultados;
+    }
+
+    public Set<SubResultado> getSubResultados() {
+        return subResultados;
+    }
+
+    public void setSubResultados(Set<SubResultado> subResultados) {
+        this.subResultados = subResultados;
     }
 
     public Long getId() {
