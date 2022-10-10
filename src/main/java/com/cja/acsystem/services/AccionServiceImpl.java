@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import com.cja.acsystem.dto.AccionDTO;
 import com.cja.acsystem.entities.Accion;
+import com.cja.acsystem.entities.Licencia;
 import com.cja.acsystem.entities.UnidadNegocio;
+import com.cja.acsystem.exceptions.ResourceNotFoundExceptionString;
 import com.cja.acsystem.repositories.AccionRepository;
 import com.cja.acsystem.repositories.UnidadNegocioRepository;
 import org.modelmapper.ModelMapper;
@@ -49,28 +51,36 @@ public class AccionServiceImpl implements AccionService {
     }
 
     @Override
-    public List<AccionDTO> obtenerAccionesPorUnidadNegocio(long unidadNegocioId) {
+    public List<AccionDTO> obtenerAccionesPorUnidadNegocio(long firmaId,long unidadNegocioId) {
         List<Accion> acciones = accionRepository.findByUnidadNegocioId(unidadNegocioId);
+
         return acciones.stream().map(accion -> mapearDTO(accion)).collect(Collectors.toList());
     }
 
+    /*
     @Override
-    public AccionDTO obtenerAccionPorId(Long firmaId,Long unidadNegocioId, Long accionId) {
+    public AccionDTO obtenerAccionPorId(Long firmaId,Long unidadNegocioId, String accionId) {
         Firma firma = firmaRepository.findById(firmaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
 
         UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
 
+         //BUSCAR COMO USAR STRINGS para findById. Si no, entonces buscar alternativas
         Accion accion = accionRepository.findById(accionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
+                .orElseThrow(() -> new ResourceNotFoundExceptionString("Accion", "id", accionId));
+
 
         if (!accion.getFirma().getId().equals(firma.getId())) {
             throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta firma o de esta unidad de negocio");
         }
 
+
         return mapearDTO(accion);
     }
+
+     */
+
 
     @Override
     public AccionDTO actualizarAccion(Long firmaId, Long unidadNegocioId,Long accionId, AccionDTO accionDTO) {
@@ -78,17 +88,20 @@ public class AccionServiceImpl implements AccionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Firma", "id", firmaId));
 
         UnidadNegocio unidadNegocio = unidadNegocioRepository.findById(unidadNegocioId)
-                .orElseThrow(() -> new ResourceNotFoundException("Unidad Negocio", "id", unidadNegocioId));
+                .orElseThrow(() -> new ResourceNotFoundException("Unidad de Negocio", "id", unidadNegocioId));
 
         Accion accion = accionRepository.findById(accionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accion", "id", accionId));
 
-        if (!accion.getFirma().getId().equals(firma.getId())) {
-            throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta firma");
-        }
+        Boolean result = ((accion.getFirma().equals(firma.getId())) && (accion.getUnidadNegocio().equals(unidadNegocio.getId())));
 
-        accion.setDescripcion(accionDTO.getDescripcion());
+        if (result) {
+            throw new AcsystemAppException(HttpStatus.BAD_REQUEST, "La accion no es de esta disponible en la BD");
+        }
+        accion.setCodigo_acceso(accionDTO.getCodigo_accion());
         accion.setActivo(accionDTO.isActivo());
+        accion.setDescripcion(accionDTO.getDescripcion());
+
 
         Accion accionActualizada = accionRepository.save(accion);
         return mapearDTO(accionActualizada);

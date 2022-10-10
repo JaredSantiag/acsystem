@@ -1,37 +1,66 @@
 package com.cja.acsystem.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.context.annotation.Primary;
 
 @Entity
-@Table(name="resultado")
+@Table(name = "resultados")
 public class Resultado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20)
-    private String descripcion;
+    @Column(length = 5)
+    private String codigoResultado;
 
     private boolean activo;
 
-    @Column(columnDefinition = "TEXT")
-    private String texto;
+    private boolean contacto;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accion_id", nullable = false)
+    private boolean promesa;
+
+    private boolean autoriza;
+
+    @Column(length = 50)
+    private String descripcion;
+
+    @ManyToOne
+    @JoinColumn(name="accion_id", nullable=false)
     private Accion accion;
 
-    public Resultado(){
+    @JsonBackReference
+    @OneToMany(mappedBy = "resultados", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SubResultado> subResultados = new HashSet<>();
 
+
+    public Resultado() {
+
+    }
+
+    public Resultado(Long id, String codigoResultado, boolean activo, boolean contacto, boolean promesa, boolean autoriza, String descripcion, Accion accion, Set<SubResultado> subResultados) {
+        this.id = id;
+        this.codigoResultado = codigoResultado;
+        this.activo = activo;
+        this.contacto = contacto;
+        this.promesa = promesa;
+        this.autoriza = autoriza;
+        this.descripcion = descripcion;
+        this.accion = accion;
+        this.subResultados = subResultados;
+    }
+
+    public Set<SubResultado> getSubResultados() {
+        return subResultados;
+    }
+
+    public void setSubResultados(Set<SubResultado> subResultados) {
+        this.subResultados = subResultados;
     }
 
     public Long getId() {
@@ -42,13 +71,12 @@ public class Resultado {
         this.id = id;
     }
 
-
-    public String getDescripcion() {
-        return descripcion;
+    public String getCodigoResultado() {
+        return codigoResultado;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setCodigoResultado(String codigoResultado) {
+        this.codigoResultado = codigoResultado;
     }
 
     public boolean isActivo() {
@@ -59,12 +87,36 @@ public class Resultado {
         this.activo = activo;
     }
 
-    public String getTexto() {
-        return texto;
+    public boolean isContacto() {
+        return contacto;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setContacto(boolean contacto) {
+        this.contacto = contacto;
+    }
+
+    public boolean isPromesa() {
+        return promesa;
+    }
+
+    public void setPromesa(boolean promesa) {
+        this.promesa = promesa;
+    }
+
+    public boolean isAutoriza() {
+        return autoriza;
+    }
+
+    public void setAutoriza(boolean autoriza) {
+        this.autoriza = autoriza;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Accion getAccion() {

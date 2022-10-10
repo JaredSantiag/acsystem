@@ -20,23 +20,29 @@ public class AccionController {
     @Autowired
     AccionService accionService;
 
-    @GetMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones")
+    @GetMapping("/firmas/{firmaId}/unidadesNegocio/{unidadNegocioId}/acciones")
     @CrossOrigin(origins = "http://localhost:3000",methods = RequestMethod.GET)
-    public List<AccionDTO> listarAccionPorUnidadNegocio(@PathVariable(value="unidadNegocioId") Long unidadNegocioId){
-        return accionService.obtenerAccionesPorUnidadNegocio(unidadNegocioId);
+    public List<AccionDTO> listarAccionPorUnidadNegocio(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId){
+        return accionService.obtenerAccionesPorUnidadNegocio(firmaId,unidadNegocioId);
     }
 
-    @GetMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones/{id}")
+    /*
+    @GetMapping("/firmas/{firmaId}/unidadesNegocio/{unidadNegocioId}/acciones/{id}")
     public ResponseEntity<AccionDTO> obtenerAccionesPorId(@PathVariable(value="firmaId") Long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId,@PathVariable(value="id") Long accionId){
         AccionDTO accionDTO = accionService.obtenerAccionPorId(firmaId, unidadNegocioId,accionId);
         return new ResponseEntity<>(accionDTO, HttpStatus.OK);
     }
+     */
 
-    @PreAuthorize("hasRole('ADMIN')")
+
+
+
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones")
     public ResponseEntity<AccionDTO> guardarAccion(@PathVariable(value="firmaId") long firmaId,@PathVariable(value="unidadNegocioId") Long unidadNegocioId,@Valid @RequestBody AccionDTO accionDTO){
         return new ResponseEntity<>(accionService.crearAccion(firmaId, unidadNegocioId,accionDTO),HttpStatus.CREATED);
     }
+
 
     //@PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/firmas/{firmaId}/{unidadNegocioId}/acciones/{accionId}")

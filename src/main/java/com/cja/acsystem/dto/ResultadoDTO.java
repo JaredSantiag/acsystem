@@ -3,10 +3,23 @@ package com.cja.acsystem.dto;
 public class ResultadoDTO {
 
     private Long id;
-    private String descripcion;
-    private String accion_id;
+
+    private String codigoResultado;
     private boolean activo;
-    private String texto;
+
+    private boolean contacto;
+
+    private boolean promesa;
+
+    private boolean autoriza;
+
+    private String descripcion;
+
+    private Long accion_id;
+
+    public ResultadoDTO() {
+
+    }
 
     public Long getId() {
         return id;
@@ -16,20 +29,12 @@ public class ResultadoDTO {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getCodigoResultado() {
+        return codigoResultado;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getAccion_id() {
-        return accion_id;
-    }
-
-    public void setAccion_id(String accion_id) {
-        this.accion_id = accion_id;
+    public void setCodigoResultado(String codigoResultado) {
+        this.codigoResultado = codigoResultado;
     }
 
     public boolean isActivo() {
@@ -40,11 +45,43 @@ public class ResultadoDTO {
         this.activo = activo;
     }
 
-    public String getTexto() {
-        return texto;
+    public boolean isContacto() {
+        return contacto;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setContacto(boolean contacto) {
+        this.contacto = contacto;
+    }
+
+    public boolean isPromesa() {
+        return promesa;
+    }
+
+    public void setPromesa(boolean promesa) {
+        this.promesa = promesa;
+    }
+
+    public boolean isAutoriza() {
+        return autoriza;
+    }
+
+    public void setAutoriza(boolean autoriza) {
+        this.autoriza = autoriza;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Long getAccion_id() {
+        return accion_id;
+    }
+
+    public void setAccion_id(Long accion_id) {
+        this.accion_id = accion_id;
     }
 }

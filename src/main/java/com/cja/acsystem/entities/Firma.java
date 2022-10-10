@@ -3,14 +3,7 @@ package com.cja.acsystem.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -33,17 +26,29 @@ public class Firma {
 	@OneToMany(mappedBy = "firma", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<UnidadNegocio> unidadesNegocio = new HashSet<>();
 
+	@JsonBackReference
+	@OneToMany(mappedBy = "firma", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Accion> acciones = new HashSet<>();
+
 	public Firma() {
 
 	}
 
-	public Firma(Long id, String nombre, boolean activo, int diasPromesa, Set<UnidadNegocio> unidadesNegocio) {
-		super();
+	public Firma(Long id, String nombre, boolean activo, int diasPromesa, Set<UnidadNegocio> unidadesNegocio, Set<Accion> acciones) {
 		this.id = id;
 		this.nombre = nombre;
 		this.activo = activo;
 		this.diasPromesa = diasPromesa;
 		this.unidadesNegocio = unidadesNegocio;
+		this.acciones = acciones;
+	}
+
+	public Set<Accion> getAcciones() {
+		return acciones;
+	}
+
+	public void setAcciones(Set<Accion> acciones) {
+		this.acciones = acciones;
 	}
 
 	public Long getId() {

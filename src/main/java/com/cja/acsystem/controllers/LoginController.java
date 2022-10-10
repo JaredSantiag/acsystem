@@ -3,6 +3,7 @@ package com.cja.acsystem.controllers;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import com.cja.acsystem.entities.Licencia;
 import com.cja.acsystem.entities.Role;
 import com.cja.acsystem.entities.Usuario;
 import com.cja.acsystem.exceptions.ResourceNotFoundException;
+import com.cja.acsystem.exceptions.ResourceNotFoundExceptionString;
 import com.cja.acsystem.repositories.LicenciaRepository;
 import com.cja.acsystem.repositories.RoleRepository;
 import com.cja.acsystem.repositories.UsuarioRepository;
@@ -135,4 +137,27 @@ public class LoginController {
 		usuarioRepository.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.CREATED);
 	}
+
+
+	@PutMapping("/cambiarpassword/{username}")
+	public ResponseEntity<?> actualizarUsuario(@RequestBody RegistroDTO registroDTO,
+											   @PathVariable(value = "username") String username){
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+		Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundExceptionString("Usuario", "username",username));
+
+		if(!passwordEncoder.matches(registroDTO.getPassword(), usuario.getPassword())) {
+			usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
+			usuario.setUltimaActualizacion(registroDTO.getUltimaActualizacion());
+
+			usuarioRepository.save(usuario);
+			return new ResponseEntity<>("Contraseña actualizada", HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<>("La contrseña no puede ser la misma", HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
 }
+

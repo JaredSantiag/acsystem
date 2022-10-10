@@ -26,12 +26,28 @@ public class UnidadNegocio {
 	@JoinColumn(name = "firma_id", nullable = false)
 	private Firma firma;
 
-	@JsonBackReference
-	@OneToMany(mappedBy = "unidadNegocio", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Accion> accion = new HashSet<>();
+	@OneToMany(mappedBy="unidadNegocio")
+	private Set<Accion> accion;
 
 	public UnidadNegocio(){
 		
+	}
+
+	public UnidadNegocio(Long id, String nombre, boolean activo, String script,Firma firma ,Set<Accion> accion) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.activo = activo;
+		this.firma = firma;
+		this.accion = accion;
+	}
+
+	public Set<Accion> getAccion() {
+		return accion;
+	}
+
+	public void setAccion(Set<Accion> accion) {
+		this.accion = accion;
 	}
 
 	public Long getId() {
