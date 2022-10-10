@@ -3,9 +3,6 @@ package com.cja.acsystem.entities;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,10 +19,10 @@ public class Usuario {
 
 	@Column(length = 60)
 	private String password;
-	
+
 	@Column(length = 80)
 	private String nombre;
-	
+
 	@Column(length = 80)
 	private String email;
 
@@ -39,14 +36,6 @@ public class Usuario {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "ultima_actualizacion")
 	private Date ultimaActualizacion;
-
-	public Date getUltimaActualizacion() {
-		return ultimaActualizacion;
-	}
-
-	public void setUltimaActualizacion(Date ultimaActualizacion) {
-		this.ultimaActualizacion = ultimaActualizacion;
-	}
 
 	public long getId() {
 		return id;
@@ -102,6 +91,14 @@ public class Usuario {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Date getUltimaActualizacion() {
+		return ultimaActualizacion;
+	}
+
+	public void setUltimaActualizacion(Date ultimaActualizacion) {
+		this.ultimaActualizacion = ultimaActualizacion;
 	}
 
 }
